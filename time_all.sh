@@ -11,22 +11,34 @@ SH=$(which sh)
 STATICSH="$(which busybox) sh"
 
 echo $(eval uname -mprsv)
-echo -e "\nTiming ${CLANGXX}"
-echo $(eval ${CLANGXX} --version)
-time ./fizzbuzz.clang++ > /dev/null
 
-echo -e "\nTiming ${CXX}"
-echo $(eval ${CXX} --version)
-time ./fizzbuzz.g++ > /dev/null
-echo $(eval uname -mprsv)
+if [ -f "fizzbuzz.clang++" ]
+then
+  echo -e "\nTiming ${CLANGXX}"
+  echo $(eval ${CLANGXX} --version)
+  time ./fizzbuzz.clang++ > /dev/null
+fi
 
-echo -e "\nTiming ${CLANG}"
-echo $(eval ${CLANG} --version)
-time ./fizzbuzz.clang > /dev/null
+if [ -f "fizzbuzz.g++" ]
+then
+  echo -e "\nTiming ${CXX}"
+  echo $(eval ${CXX} --version)
+  time ./fizzbuzz.g++ > /dev/null
+fi
 
-echo -e "\nTiming ${CC}"
-echo $(eval ${CC} --version)
-time ./fizzbuzz.gcc > /dev/null
+if [ -f "fizzbuzz.clang" ]
+then
+  echo -e "\nTiming ${CLANG}"
+  echo $(eval ${CLANG} --version)
+  time ./fizzbuzz.clang > /dev/null
+fi
+
+if [ -f "fizzbuzz.gcc" ]
+then
+  echo -e "\nTiming ${CC}"
+  echo $(eval ${CC} --version)
+  time ./fizzbuzz.gcc > /dev/null
+fi
 
 if [ -n "$JAVA" ]
 then
@@ -64,3 +76,4 @@ then
   echo -e "\nTiming ${STATICSH}"
   time ${STATICSH} fizzbuzz.sh > /dev/null
 fi
+
